@@ -1,0 +1,57 @@
+@import 'tailwindcss';
+@import '@fontsource-variable/inter';
+
+@theme {
+  --font-sans: 'Inter Variable', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+
+  --color-ink-950: #0a1526;
+  --color-ink-900: #0f1f33;
+  --color-ink-800: #172b45;
+  --color-ink-700: #22395a;
+  --color-ink-600: #3a5078;
+  --color-ink-500: #5b6f93;
+  --color-ink-400: #8a99b5;
+  --color-ink-300: #b9c3d6;
+  --color-ink-200: #dde3ee;
+  --color-ink-100: #eef1f6;
+  --color-ink-50: #f6f8fb;
+
+  --color-brand-700: #a82f0e;
+  --color-brand-600: #c93a12;
+  --color-brand-500: #e4461f;
+  --color-brand-400: #f06a47;
+  --color-brand-100: #fde6df;
+  --color-brand-50: #fff3ef;
+
+  --color-sun-500: #f5b400;
+  --color-sun-100: #fff2c8;
+
+  --shadow-card: 0 1px 2px rgb(15 31 51 / 0.06), 0 8px 24px -12px rgb(15 31 51 / 0.18);
+  --shadow-lift: 0 2px 4px rgb(15 31 51 / 0.08), 0 20px 40px -16px rgb(15 31 51 / 0.28);
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    -webkit-text-size-adjust: 100%;
+  }
+  body {
+    @apply bg-white text-ink-900 antialiased;
+    font-feature-settings: 'cv11', 'ss01';
+  }
+  :focus-visible {
+    @apply outline-none ring-2 ring-brand-500 ring-offset-2 ring-offset-white;
+  }
+  ::selection {
+    @apply bg-brand-100 text-brand-700;
+  }
+}
+
+@layer utilities {
+  .container-x {
+    @apply mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8;
+  }
+  .pb-safe {
+    padding-bottom: env(safe-area-inset-bottom);
+  }
+}
