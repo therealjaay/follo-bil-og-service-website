@@ -1,5 +1,7 @@
 # Follo Bil & Service – prototype av ny nettside
 
+Live: https://follo-bil-og-service-website.vercel.app
+
 Prototype (frontend only) of a redesigned website for Follo Bil & Service AS, Ski.
 Stack: Vite 8 + React 19 + TypeScript + Tailwind CSS v4 + React Router 7.
 
