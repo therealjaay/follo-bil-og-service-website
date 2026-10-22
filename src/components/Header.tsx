@@ -8,7 +8,7 @@ import { Logo } from './Logo'
 const nav = [
   { to: '/tjenester', label: 'Tjenester' },
   { to: '/eu-kontroll', label: 'EU-kontroll' },
-  { to: '/dekk-og-dekkhotell', label: 'Dekk og dekkhotell' },
+  { to: '/dekkskift', label: 'Dekkskift' },
   { to: '/priser', label: 'Priser' },
   { to: '/om-oss', label: 'Om oss' },
   { to: '/kontakt', label: 'Kontakt' },

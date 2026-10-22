@@ -3,7 +3,7 @@ import type { ReactNode } from 'react'
 type SectionProps = {
   id?: string
   eyebrow?: string
-  title: string
+  title: ReactNode
   lead?: string
   children: ReactNode
   tone?: 'white' | 'muted' | 'dark'
@@ -41,7 +41,7 @@ export function Section({ id, eyebrow, title, lead, children, tone = 'white', al
   )
 }
 
-export function PageHero({ eyebrow, title, lead, children }: { eyebrow?: string; title: string; lead?: string; children?: ReactNode }) {
+export function PageHero({ eyebrow, title, lead, children }: { eyebrow?: string; title: ReactNode; lead?: string; children?: ReactNode }) {
   return (
     <section className="relative overflow-hidden bg-ink-900 text-white">
       <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,rgb(228_70_31/0.25),transparent_55%)]" aria-hidden />

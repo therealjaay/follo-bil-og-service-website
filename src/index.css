@@ -55,3 +55,23 @@
     padding-bottom: env(safe-area-inset-bottom);
   }
 }
+
+@keyframes pop {
+  from {
+    transform: translateY(-50%) scale(0.6);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(-50%) scale(1);
+    opacity: 1;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  ::before,
+  ::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}

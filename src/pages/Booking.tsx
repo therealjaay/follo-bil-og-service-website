@@ -1,5 +1,5 @@
 import { type FormEvent, useMemo, useState } from 'react'
-import { CalendarCheck, CheckCircle2, Clock, Phone, ShieldCheck } from 'lucide-react'
+import { CalendarCheck, Check, CheckCircle2, Clock, Phone, ShieldCheck } from 'lucide-react'
 import { Link, useSearchParams } from 'react-router-dom'
 import { Button } from '../components/Button'
 import { business } from '../data/business'
@@ -37,6 +37,23 @@ function nextWeekday(from: Date, add: number) {
 const inputCls =
   'mt-1.5 block w-full rounded-xl border border-ink-200 bg-white px-4 py-3 text-base text-ink-900 placeholder:text-ink-400 focus:border-brand-500 focus:ring-2 focus:ring-brand-500/30 focus:outline-none aria-[invalid=true]:border-red-500'
 
+const patterns = {
+  regNr: /^[A-ZÆØÅ]{2}\s?\d{4,5}$/i,
+  phone: /^(\+47)?\s?\d{8}$/,
+  email: /^\S+@\S+\.\S+$/,
+}
+
+/** Inline "looks good" mark (Tripadvisor-style) shown once a field validates. */
+function ValidMark({ show }: { show: boolean }) {
+  if (!show) return null
+  return (
+    <span className="pointer-events-none absolute right-3 top-1/2 flex size-5 -translate-y-1/2 items-center justify-center rounded-full bg-emerald-100 text-emerald-700 animate-[pop_.25s_ease-out]">
+      <Check className="size-3.5" strokeWidth={3} aria-hidden />
+      <span className="sr-only">Ser bra ut</span>
+    </span>
+  )
+}
+
 export function Booking() {
   useSeo({
     title: 'Bestill time – svar på SMS innen én virkedag',
@@ -70,11 +87,11 @@ export function Booking() {
   function validate(): boolean {
     const e: typeof errors = {}
     if (!form.service) e.service = 'Velg hva du trenger hjelp med'
-    if (!/^[A-ZÆØÅ]{2}\s?\d{4,5}$/i.test(form.regNr.trim())) e.regNr = 'Skriv et gyldig norsk reg.nr, f.eks. AB 12345'
+    if (!patterns.regNr.test(form.regNr.trim())) e.regNr = 'Skriv et gyldig norsk reg.nr, f.eks. AB 12345'
     if (!form.date) e.date = 'Velg en dag'
     if (form.name.trim().length < 2) e.name = 'Skriv navnet ditt'
-    if (!/^(\+47)?\s?\d{8}$/.test(form.phone.replace(/\s/g, ''))) e.phone = 'Skriv et gyldig norsk telefonnummer (8 siffer)'
-    if (form.email && !/^\S+@\S+\.\S+$/.test(form.email)) e.email = 'Skriv en gyldig e-postadresse'
+    if (!patterns.phone.test(form.phone.replace(/\s/g, ''))) e.phone = 'Skriv et gyldig norsk telefonnummer (8 siffer)'
+    if (form.email && !patterns.email.test(form.email)) e.email = 'Skriv en gyldig e-postadresse'
     if (!form.consent) e.consent = 'Du må samtykke for at vi skal kunne kontakte deg'
     setErrors(e)
     return Object.keys(e).length === 0
@@ -96,6 +113,12 @@ export function Booking() {
   }
 
   const chosen = services.find((s) => s.slug === (done ?? form).service)
+  const ok = {
+    regNr: !errors.regNr && patterns.regNr.test(form.regNr.trim()),
+    phone: !errors.phone && patterns.phone.test(form.phone.replace(/\s/g, '')),
+    name: !errors.name && form.name.trim().length >= 2,
+    email: !errors.email && patterns.email.test(form.email),
+  }
 
   if (done) {
     const slot = slots.find((s) => s.value === done.slot)!
@@ -146,7 +169,7 @@ export function Booking() {
   }
 
   return (
-    <section className="bg-ink-50 py-10 sm:py-16">
+    <section className="bg-ink-50 py-10 pb-28 sm:py-16 lg:pb-16">
       <div className="container-x grid gap-8 lg:grid-cols-5">
         <div className="lg:col-span-3">
           <h1 className="text-3xl font-extrabold tracking-tight sm:text-4xl">Bestill time</h1>
@@ -158,7 +181,7 @@ export function Booking() {
             .
           </p>
 
-          <form onSubmit={onSubmit} noValidate className="mt-8 grid gap-8 rounded-3xl bg-white p-6 shadow-card ring-1 ring-ink-100 sm:p-8">
+          <form id="booking-form" onSubmit={onSubmit} noValidate className="mt-8 grid gap-8 rounded-3xl bg-white p-6 shadow-card ring-1 ring-ink-100 sm:p-8">
             <fieldset>
               <legend className="text-lg font-bold">1. Hva trenger bilen?</legend>
               <div className="mt-4 grid gap-2 sm:grid-cols-2">
@@ -196,17 +219,20 @@ export function Booking() {
                   <label htmlFor="regNr" className="text-sm font-semibold text-ink-700">
                     Registreringsnummer
                   </label>
-                  <input
-                    id="regNr"
-                    name="regNr"
-                    autoComplete="off"
-                    placeholder="AB 12345"
-                    value={form.regNr}
-                    onChange={(e) => update('regNr', e.target.value.toUpperCase())}
-                    aria-invalid={!!errors.regNr}
-                    aria-describedby={errors.regNr ? 'regNr-err' : undefined}
-                    className={`${inputCls} font-mono uppercase tracking-widest`}
-                  />
+                  <div className="relative">
+                    <input
+                      id="regNr"
+                      name="regNr"
+                      autoComplete="off"
+                      placeholder="AB 12345"
+                      value={form.regNr}
+                      onChange={(e) => update('regNr', e.target.value.toUpperCase())}
+                      aria-invalid={!!errors.regNr}
+                      aria-describedby={errors.regNr ? 'regNr-err' : undefined}
+                      className={`${inputCls} pr-11 font-mono uppercase tracking-widest`}
+                    />
+                    <ValidMark show={ok.regNr} />
+                  </div>
                   {errors.regNr && (
                     <p id="regNr-err" className="mt-1.5 text-sm font-medium text-red-600">
                       {errors.regNr}
@@ -266,32 +292,48 @@ export function Booking() {
                   <label htmlFor="name" className="text-sm font-semibold text-ink-700">
                     Navn
                   </label>
-                  <input id="name" name="name" autoComplete="name" value={form.name} onChange={(e) => update('name', e.target.value)} aria-invalid={!!errors.name} className={inputCls} />
+                  <div className="relative">
+                    <input id="name" name="name" autoComplete="name" value={form.name} onChange={(e) => update('name', e.target.value)} aria-invalid={!!errors.name} className={`${inputCls} pr-11`} />
+                    <ValidMark show={ok.name} />
+                  </div>
                   {errors.name && <p className="mt-1.5 text-sm font-medium text-red-600">{errors.name}</p>}
                 </div>
                 <div>
                   <label htmlFor="phone" className="text-sm font-semibold text-ink-700">
                     Mobilnummer <span className="font-normal text-ink-500">(for SMS-bekreftelse)</span>
                   </label>
-                  <input
-                    id="phone"
-                    name="phone"
-                    type="tel"
-                    inputMode="tel"
-                    autoComplete="tel"
-                    placeholder="912 34 567"
-                    value={form.phone}
-                    onChange={(e) => update('phone', e.target.value)}
-                    aria-invalid={!!errors.phone}
-                    className={inputCls}
-                  />
-                  {errors.phone && <p className="mt-1.5 text-sm font-medium text-red-600">{errors.phone}</p>}
+                  <div className="relative">
+                    <input
+                      id="phone"
+                      name="phone"
+                      type="tel"
+                      inputMode="tel"
+                      autoComplete="tel"
+                      placeholder="912 34 567"
+                      value={form.phone}
+                      onChange={(e) => update('phone', e.target.value)}
+                      aria-invalid={!!errors.phone}
+                      aria-describedby="phone-help"
+                      className={`${inputCls} pr-11`}
+                    />
+                    <ValidMark show={ok.phone} />
+                  </div>
+                  {errors.phone ? (
+                    <p className="mt-1.5 text-sm font-medium text-red-600">{errors.phone}</p>
+                  ) : (
+                    <p id="phone-help" className="mt-1.5 text-xs text-ink-500">
+                      Brukes bare til å bekrefte timen – ingen nyhetsbrev.
+                    </p>
+                  )}
                 </div>
                 <div className="sm:col-span-2">
                   <label htmlFor="email" className="text-sm font-semibold text-ink-700">
                     E-post <span className="font-normal text-ink-500">(valgfritt)</span>
                   </label>
-                  <input id="email" name="email" type="email" autoComplete="email" value={form.email} onChange={(e) => update('email', e.target.value)} aria-invalid={!!errors.email} className={inputCls} />
+                  <div className="relative">
+                    <input id="email" name="email" type="email" autoComplete="email" value={form.email} onChange={(e) => update('email', e.target.value)} aria-invalid={!!errors.email} className={`${inputCls} pr-11`} />
+                    <ValidMark show={ok.email} />
+                  </div>
                   {errors.email && <p className="mt-1.5 text-sm font-medium text-red-600">{errors.email}</p>}
                 </div>
                 <div className="sm:col-span-2">
@@ -374,6 +416,25 @@ export function Booking() {
             </div>
           </div>
         </aside>
+      </div>
+
+      {/* Mobile summary bar – Fresha/Trainline-style: what you're booking + primary action always within thumb reach */}
+      <div
+        className="fixed inset-x-0 bottom-0 z-40 border-t border-ink-100 bg-white/95 pb-safe backdrop-blur lg:hidden"
+        role="region"
+        aria-label="Oppsummering"
+      >
+        <div className="container-x flex items-center justify-between gap-3 py-2.5">
+          <div className="min-w-0">
+            <p className="truncate text-[15px] font-semibold text-ink-900">{chosen ? chosen.name : 'Velg tjeneste'}</p>
+            <p className="truncate text-xs text-ink-500">
+              {chosen?.priceFrom ? `veil. fra ${chosen.priceFrom.toLocaleString('nb-NO')},- · ${chosen.duration}` : 'Uforpliktende · svar på SMS'}
+            </p>
+          </div>
+          <Button type="submit" form="booking-form" disabled={submitting} className="shrink-0">
+            {submitting ? 'Sender…' : 'Send forespørsel'}
+          </Button>
+        </div>
       </div>
     </section>
   )

@@ -21,6 +21,8 @@ export function ServiceDetail() {
 
   const related = services.filter((s) => s.slug !== service.slug).slice(0, 3)
   const Icon = service.icon
+  // Keep acronyms like "EU-kontroll"/"AC" intact mid-sentence.
+  const inSentence = /^[A-ZÆØÅ]{2}/.test(service.name) ? service.name : service.name.toLowerCase()
 
   return (
     <>
@@ -45,7 +47,7 @@ export function ServiceDetail() {
           </ol>
         </nav>
         <div className="flex flex-wrap gap-3">
-          <Button to={`/bestill-time?tjeneste=${service.slug}`}>Bestill {service.name.toLowerCase()}</Button>
+          <Button to={`/bestill-time?tjeneste=${service.slug}`}>Bestill {inSentence}</Button>
           <Button href={business.phoneHref} variant="white">
             <Phone className="size-4" aria-hidden />
             {business.phoneDisplay}
@@ -60,7 +62,7 @@ export function ServiceDetail() {
               <span className="flex size-14 items-center justify-center rounded-2xl bg-brand-50 text-brand-600 ring-1 ring-inset ring-brand-100">
                 <Icon className="size-7" aria-hidden />
               </span>
-              <h2 className="text-2xl font-extrabold tracking-tight sm:text-3xl">Om {service.name.toLowerCase()}</h2>
+              <h2 className="text-2xl font-extrabold tracking-tight sm:text-3xl">Om {inSentence}</h2>
             </div>
             <p className="mt-6 text-lg leading-relaxed text-ink-700">{service.intro}</p>
 
@@ -97,10 +99,18 @@ export function ServiceDetail() {
                 )}
               </p>
               <p className="mt-1 text-sm text-ink-500">inkl. mva. Eksakt pris før vi starter.</p>
-              <p className="mt-5 flex items-center gap-2 text-[15px] text-ink-700">
-                <Clock className="size-4 text-brand-600" aria-hidden />
-                Tidsbruk: {service.duration}
-              </p>
+              <ul className="mt-5 grid gap-2.5 border-t border-ink-100 pt-5 text-[15px] text-ink-700">
+                <li className="flex items-center gap-2.5">
+                  <Clock className="size-4 shrink-0 text-brand-600" aria-hidden />
+                  Tidsbruk: {service.duration}
+                </li>
+                {service.includes.slice(0, 3).map((item) => (
+                  <li key={item} className="flex items-start gap-2.5">
+                    <Check className="mt-0.5 size-4 shrink-0 text-emerald-600" strokeWidth={3} aria-hidden />
+                    {item}
+                  </li>
+                ))}
+              </ul>
               <div className="mt-6 grid gap-3">
                 <Button to={`/bestill-time?tjeneste=${service.slug}`} size="lg">
                   Bestill time
@@ -109,6 +119,9 @@ export function ServiceDetail() {
                   <Phone className="size-4" aria-hidden />
                   Ring {business.phoneDisplay}
                 </Button>
+                <Link to="/#faq" className="text-center text-sm font-semibold text-ink-600 underline-offset-4 hover:text-ink-900 hover:underline">
+                  Se vanlige spørsmål
+                </Link>
               </div>
               <p className="mt-4 text-xs text-ink-500">Man–fre 09–17 · {business.address.street}, {business.address.city}</p>
             </div>

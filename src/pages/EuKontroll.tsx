@@ -57,7 +57,7 @@ export function EuKontroll() {
             <li key={f.title} className="rounded-2xl border border-ink-100 bg-white p-6 shadow-card">
               <div className="flex items-center justify-between">
                 <f.icon className="size-7 text-brand-600" aria-hidden />
-                <span className="text-sm font-bold text-ink-300">0{i + 1}</span>
+                <span className="text-sm font-bold text-ink-500">0{i + 1}</span>
               </div>
               <h3 className="mt-4 text-lg font-bold tracking-tight">{f.title}</h3>
               <p className="mt-2 text-[15px] leading-relaxed text-ink-600">{f.text}</p>

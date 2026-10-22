@@ -8,8 +8,8 @@ import { useSeo } from '../lib/useSeo'
 const extra = [
   ['Timepris verksted', 'kr 1 190,- per time'],
   ['Hjulskift', 'fra kr 490,-'],
-  ['Dekkhotell', 'fra kr 1 290,- per sesong'],
-  ['Omlegging av dekk', 'fra kr 290,- per hjul'],
+  ['Omlegging og avbalansering (dekk du har kjøpt selv)', 'fra kr 290,- per hjul'],
+  ['Felgreparasjon', 'fra kr 890,- per felg'],
   ['Bremsevæskeskift', 'fra kr 990,-'],
   ['Batteribytte (inkl. registrering)', 'fra kr 790,- + batteri'],
   ['Lyspære (bytte)', 'fra kr 150,- + pære'],
@@ -20,7 +20,7 @@ export function Prices() {
   useSeo({
     title: 'Priser – åpne, veiledende priser på service og reparasjon',
     description:
-      'Veiledende priser hos Follo Bil & Service i Ski: EU-kontroll, service, oljeskift, bremser, AC, dekkskift og dekkhotell. Alle priser inkl. mva. Du får alltid eksakt pris før vi starter.',
+      'Veiledende priser hos Follo Bil & Service i Ski: EU-kontroll, service, oljeskift, bremser, AC og dekkskift. Alle priser inkl. mva. Du får alltid eksakt pris før vi starter.',
     path: '/priser',
   })
 

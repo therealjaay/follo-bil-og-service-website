@@ -94,7 +94,7 @@ export function About() {
         lead="Her skal det stå ekte navn, bilder og hvilke bilmerker hver enkelt kan best. Kunder velger verksted basert på folk – ikke logoer."
       >
         <ul className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-          {['Daglig leder og mekaniker', 'Bilmekaniker', 'Kundemottak og dekkhotell'].map((role) => (
+          {['Daglig leder og mekaniker', 'Bilmekaniker', 'Kundemottak og deler'].map((role) => (
             <li key={role} className="rounded-2xl border-2 border-dashed border-ink-200 bg-white p-6 text-center">
               <span className="mx-auto flex size-24 items-center justify-center rounded-full bg-ink-50 text-ink-400">
                 <Camera className="size-8" aria-hidden />

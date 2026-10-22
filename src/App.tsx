@@ -6,7 +6,7 @@ import { StickyBar } from './components/StickyBar'
 import { About } from './pages/About'
 import { Booking } from './pages/Booking'
 import { Contact } from './pages/Contact'
-import { Dekk } from './pages/Dekk'
+import { Dekkskift } from './pages/Dekkskift'
 import { EuKontroll } from './pages/EuKontroll'
 import { Home } from './pages/Home'
 import { NotFound } from './pages/NotFound'
@@ -15,10 +15,17 @@ import { ServiceDetail } from './pages/ServiceDetail'
 import { Services } from './pages/Services'
 
 function ScrollToTop() {
-  const { pathname } = useLocation()
+  const { pathname, hash } = useLocation()
   useEffect(() => {
+    if (hash) {
+      const target = document.getElementById(hash.slice(1))
+      if (target) {
+        target.scrollIntoView({ behavior: 'instant', block: 'start' })
+        return
+      }
+    }
     window.scrollTo({ top: 0, behavior: 'instant' })
-  }, [pathname])
+  }, [pathname, hash])
   return null
 }
 
@@ -39,7 +46,7 @@ export default function App() {
           <Route path="/tjenester" element={<Services />} />
           <Route path="/tjenester/:slug" element={<ServiceDetail />} />
           <Route path="/eu-kontroll" element={<EuKontroll />} />
-          <Route path="/dekk-og-dekkhotell" element={<Dekk />} />
+          <Route path="/dekkskift" element={<Dekkskift />} />
           <Route path="/priser" element={<Prices />} />
           <Route path="/bestill-time" element={<Booking />} />
           <Route path="/om-oss" element={<About />} />

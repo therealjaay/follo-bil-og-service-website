@@ -1,6 +1,10 @@
 {
   "$schema": "https://openapi.vercel.sh/vercel.json",
   "framework": "vite",
+  "redirects": [
+    { "source": "/dekk-og-dekkhotell", "destination": "/dekkskift", "permanent": true },
+    { "source": "/tjenester/dekk-og-dekkhotell", "destination": "/tjenester/dekkskift", "permanent": true }
+  ],
   "rewrites": [{ "source": "/(.*)", "destination": "/index.html" }],
   "headers": [
     {

@@ -10,7 +10,7 @@ export function Services() {
   useSeo({
     title: 'Tjenester – service, EU-kontroll, bremser, dekk og reparasjon',
     description:
-      'Oversikt over alle tjenester hos Follo Bil & Service i Ski: service, EU-kontroll, bremser, AC, oljeskift, diagnose, dekk, dekkhotell og reparasjoner. Veiledende priser.',
+      'Oversikt over alle tjenester hos Follo Bil & Service i Ski: service, EU-kontroll, bremser, AC, oljeskift, diagnose, dekkskift og reparasjoner. Veiledende priser.',
     path: '/tjenester',
   })
 

@@ -1,4 +1,4 @@
-import { ArrowRight, BadgeCheck, CalendarCheck, Car, Clock, MapPin, Phone, ShieldCheck, Snowflake } from 'lucide-react'
+import { ArrowRight, BadgeCheck, CalendarCheck, Car, Check, Clock, MapPin, Phone, ShieldCheck, Snowflake } from 'lucide-react'
 import { Link } from 'react-router-dom'
 import { Button } from '../components/Button'
 import { ContactPanel } from '../components/ContactPanel'
@@ -15,14 +15,14 @@ const trustIcons = [BadgeCheck, Car, ShieldCheck, MapPin]
 
 export function Home() {
   useSeo({
-    title: 'Bilverksted i Ski – EU-kontroll, service og dekkhotell',
+    title: 'Bilverksted i Ski – EU-kontroll, service og dekkskift',
     description:
-      'Godkjent bilverksted i Ski (Nordre Follo). EU-kontroll, service, bremser, AC, dekkskift og dekkhotell for alle bilmerker. Bestill time på nett eller ring 484 21 756.',
+      'Godkjent bilverksted i Ski (Nordre Follo). EU-kontroll, service, bremser, AC og dekkskift for alle bilmerker. Bestill time på nett eller ring 484 21 756.',
     path: '/',
   })
 
   const eu = services.find((s) => s.slug === 'eu-kontroll')!
-  const dekk = services.find((s) => s.slug === 'dekk-og-dekkhotell')!
+  const dekk = services.find((s) => s.slug === 'dekkskift')!
 
   return (
     <>
@@ -39,7 +39,7 @@ export function Home() {
         <div className="absolute inset-0 -z-10 bg-gradient-to-r from-ink-950/95 via-ink-950/80 to-ink-900/40" aria-hidden />
         <div className="absolute inset-0 -z-10 bg-gradient-to-t from-ink-950/80 via-transparent to-transparent" aria-hidden />
 
-        <div className="container-x relative py-16 sm:py-24 lg:py-32">
+        <div className="container-x relative grid items-center gap-12 py-16 sm:py-24 lg:grid-cols-[1fr_minmax(0,22rem)] lg:py-32">
           <div className="max-w-2xl">
             <p className="inline-flex items-center gap-2 rounded-full bg-white/10 px-3 py-1.5 text-sm font-medium text-ink-100 ring-1 ring-inset ring-white/15 backdrop-blur">
               <BadgeCheck className="size-4 text-brand-400" aria-hidden />
@@ -49,7 +49,7 @@ export function Home() {
               Bilverkstedet i Ski som gir deg prisen <span className="text-brand-400">før</span> vi starter.
             </h1>
             <p className="mt-6 max-w-xl text-lg leading-relaxed text-ink-200 sm:text-xl">
-              EU-kontroll, service, bremser, AC og dekkhotell for alle bilmerker. Bestill time på nett på under ett minutt – vi
+              EU-kontroll, service, bremser, AC og dekkskift for alle bilmerker. Bestill time på nett på under ett minutt – vi
               bekrefter på SMS.
             </p>
             <div className="mt-8 flex flex-col gap-3 sm:flex-row">
@@ -62,6 +62,7 @@ export function Home() {
                 Ring {business.phoneDisplay}
               </Button>
             </div>
+            <p className="mt-3 text-sm text-ink-300">Tar under ett minutt · uforpliktende · du får prisen før du sier ja.</p>
             <ul className="mt-8 flex flex-wrap gap-x-6 gap-y-2 text-sm text-ink-200">
               <li className="flex items-center gap-2">
                 <Clock className="size-4 text-brand-400" aria-hidden />
@@ -77,6 +78,31 @@ export function Home() {
               </li>
             </ul>
           </div>
+
+          {/* Floating "what you get" card – Airtasker/Fresha-style hero proof */}
+          <aside className="hidden lg:block" aria-label="Dette får du">
+            <div className="rounded-3xl bg-white p-6 text-ink-900 shadow-lift ring-1 ring-white/40">
+              <p className="text-xs font-semibold uppercase tracking-wider text-ink-500">Dette får du</p>
+              <ul className="mt-4 grid gap-3 text-[15px]">
+                {[
+                  'Svar på SMS innen én virkedag',
+                  'Eksakt pris før vi starter',
+                  'Gratis etterkontroll etter EU-kontroll',
+                  'Nøkkelinnkast – lever når det passer deg',
+                ].map((item) => (
+                  <li key={item} className="flex items-start gap-3">
+                    <span className="mt-0.5 flex size-5 shrink-0 items-center justify-center rounded-full bg-emerald-100 text-emerald-700">
+                      <Check className="size-3.5" strokeWidth={3} aria-hidden />
+                    </span>
+                    {item}
+                  </li>
+                ))}
+              </ul>
+              <div className="mt-5 border-t border-ink-100 pt-5">
+                <RatingBadge compact />
+              </div>
+            </div>
+          </aside>
         </div>
       </section>
 
@@ -108,7 +134,11 @@ export function Home() {
       <Section
         id="hvorfor"
         eyebrow="Hvorfor Follo Bil & Service"
-        title="Et lite verksted der du snakker med den som faktisk skrur på bilen din"
+        title={
+          <>
+            Et lite verksted der du snakker med den som <em className="not-italic text-brand-600">faktisk skrur</em> på bilen din
+          </>
+        }
         lead="Vi er et godkjent verksted i Ski med korte linjer: du får ærlige råd, fast pris og en bil som er klar når vi sa den skulle være det."
       >
         <ul className="grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
@@ -130,8 +160,12 @@ export function Home() {
         id="tjenester"
         tone="muted"
         eyebrow="Tjenester"
-        title="Alt bilen trenger – på ett sted"
-        lead="Fra EU-kontroll til dekkhotell. Veiledende fra-priser inkl. mva. Du får alltid et eksakt tilbud før vi starter."
+        title={
+          <>
+            Alt bilen trenger – <em className="not-italic text-brand-600">på ett sted</em>
+          </>
+        }
+        lead="Fra EU-kontroll til dekkskift. Veiledende fra-priser inkl. mva. Du får alltid et eksakt tilbud før vi starter."
         action={
           <Button to="/tjenester" variant="ghost">
             Se alle tjenester
@@ -146,8 +180,8 @@ export function Home() {
         </div>
       </Section>
 
-      {/* EU-kontroll + Dekkhotell feature */}
-      <section className="py-16 sm:py-20 lg:py-24" aria-label="EU-kontroll og dekkhotell">
+      {/* EU-kontroll + Dekkskift feature */}
+      <section className="py-16 sm:py-20 lg:py-24" aria-label="EU-kontroll og dekkskift">
         <div className="container-x grid gap-6 lg:grid-cols-2">
           <article className="relative overflow-hidden rounded-3xl bg-ink-900 p-8 text-white sm:p-10">
             <div className="absolute -right-10 -top-10 size-56 rounded-full bg-brand-500/20 blur-3xl" aria-hidden />
@@ -171,20 +205,20 @@ export function Home() {
           <article className="relative overflow-hidden rounded-3xl bg-sun-100 p-8 sm:p-10">
             <div className="absolute -right-10 -top-10 size-56 rounded-full bg-sun-500/30 blur-3xl" aria-hidden />
             <Snowflake className="size-10 text-ink-900" aria-hidden />
-            <h2 className="mt-5 text-2xl font-extrabold tracking-tight text-ink-900 sm:text-3xl">Dekkhotell – slipp å bære hjul i trappa</h2>
+            <h2 className="mt-5 text-2xl font-extrabold tracking-tight text-ink-900 sm:text-3xl">Dekkskift i Ski – ferdig på en halvtime</h2>
             <p className="mt-3 text-ink-700">
-              Vi skifter, vasker og lagrer hjulene dine innendørs. Når sesongen snur får du SMS, bestiller time på nett, og hjulene
-              står klare når du kommer.
+              Ta med hjulene, så skifter vi, måler mønsterdybde og trekker boltene med riktig moment. Har du kjøpt dekk selv, legger vi
+              dem om og avbalanserer.
             </p>
             <p className="mt-6 text-3xl font-extrabold text-ink-900">
-              fra {formatNok(dekk.priceFrom!)} <span className="text-base font-medium text-ink-600">hjulskift · dekkhotell fra 1 290,-/sesong</span>
+              fra {formatNok(dekk.priceFrom!)} <span className="text-base font-medium text-ink-600">hjulskift · omlegging fra 290,-/hjul</span>
             </p>
             <div className="mt-6 flex flex-wrap gap-3">
-              <Button to="/bestill-time?tjeneste=dekk-og-dekkhotell" variant="secondary">
-                Bestill hjulskift
+              <Button to="/bestill-time?tjeneste=dekkskift" variant="secondary">
+                Bestill dekkskift
               </Button>
-              <Button to="/dekk-og-dekkhotell" variant="white">
-                Om dekkhotellet
+              <Button to="/dekkskift" variant="white">
+                Om dekkskift
               </Button>
             </div>
           </article>
@@ -192,7 +226,16 @@ export function Home() {
       </section>
 
       {/* How it works */}
-      <Section id="slik" tone="muted" eyebrow="Slik fungerer det" title="Tre steg – så er bilen i orden">
+      <Section
+        id="slik"
+        tone="muted"
+        eyebrow="Slik fungerer det"
+        title={
+          <>
+            Tre steg – <em className="not-italic text-brand-600">så er bilen i orden</em>
+          </>
+        }
+      >
         <Steps />
       </Section>
 

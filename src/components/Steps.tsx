@@ -20,15 +20,19 @@ const steps = [
 
 export function Steps() {
   return (
-    <ol className="grid gap-6 md:grid-cols-3">
+    <ol className="relative grid gap-8 md:grid-cols-3 md:gap-6">
+      <span className="absolute left-5 top-6 hidden h-[calc(100%-3rem)] w-px bg-ink-200 max-md:block" aria-hidden />
+      <span className="absolute left-[16.67%] right-[16.67%] top-5 hidden h-px bg-ink-200 md:block" aria-hidden />
       {steps.map((s, i) => (
-        <li key={s.title} className="relative rounded-2xl bg-white p-6 shadow-card ring-1 ring-ink-100">
-          <div className="flex items-center gap-3">
-            <span className="flex size-10 items-center justify-center rounded-full bg-ink-900 text-sm font-bold text-white">{i + 1}</span>
-            <s.icon className="size-6 text-brand-600" aria-hidden />
+        <li key={s.title} className="relative flex gap-5 md:flex-col md:items-center md:text-center">
+          <span className="relative z-10 flex size-10 shrink-0 items-center justify-center rounded-full bg-ink-900 text-sm font-bold text-white ring-4 ring-ink-50 md:size-11">
+            {i + 1}
+          </span>
+          <div className="pt-1 md:pt-4">
+            <s.icon className="mb-3 size-6 text-brand-600 md:mx-auto" aria-hidden />
+            <h3 className="text-lg font-bold tracking-tight">{s.title}</h3>
+            <p className="mt-2 max-w-xs text-[15px] leading-relaxed text-ink-600">{s.text}</p>
           </div>
-          <h3 className="mt-5 text-lg font-bold tracking-tight">{s.title}</h3>
-          <p className="mt-2 text-[15px] leading-relaxed text-ink-600">{s.text}</p>
         </li>
       ))}
     </ol>

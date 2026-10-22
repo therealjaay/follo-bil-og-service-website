@@ -12,7 +12,7 @@ npm run build    # static output in dist/
 npm run preview  # serve dist/ on http://localhost:4173
 ```
 
-Routes: `/`, `/tjenester`, `/tjenester/:slug`, `/eu-kontroll`, `/dekk-og-dekkhotell`, `/priser`,
+Routes: `/`, `/tjenester`, `/tjenester/:slug`, `/eu-kontroll`, `/dekkskift`, `/priser`,
 `/bestill-time`, `/om-oss`, `/kontakt`.
 
 All business facts live in `src/data/business.ts`; services and indicative prices in `src/data/services.ts`.
